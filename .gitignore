@@ -6,3 +6,5 @@ dist
 npm-debug.log*
 render.yaml
 .vercel
+vite-dev.log
+vite-dev.log

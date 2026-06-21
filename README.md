@@ -44,6 +44,12 @@ CLIENT_URL=http://localhost:5173
 npm run create-admin
 ```
 
+If you previously inserted sample products/orders and want a clean store database:
+
+```powershell
+$env:CONFIRM_CLEAR_STORE="true"; npm run clear-store
+```
+
 4. Start backend:
 
 ```bash
