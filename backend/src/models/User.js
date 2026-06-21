@@ -17,8 +17,8 @@ userSchema.pre("save", async function hashPassword(next) {
   next();
 });
 
-userSchema.methods.comparePassword = function comparePassword(candidatePassword) {
-  return bcrypt.compare(candidatePassword, this.password);
+userSchema.methods.matchesPassword = function matchesPassword(password) {
+  return bcrypt.compare(password, this.password);
 };
 
 export default mongoose.model("User", userSchema);

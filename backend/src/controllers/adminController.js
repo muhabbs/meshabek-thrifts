@@ -1,9 +1,9 @@
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
-import { asyncHandler } from "../utils/errors.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const getDashboardStats = asyncHandler(async (_req, res) => {
-  const [totalProducts, totalOrders, deliveredRevenue, recentOrders, bestSellers] = await Promise.all([
+  const [totalProducts, totalOrders, revenueRows, recentOrders, bestSellers, orderStatuses] = await Promise.all([
     Product.countDocuments(),
     Order.countDocuments(),
     Order.aggregate([
@@ -12,6 +12,7 @@ export const getDashboardStats = asyncHandler(async (_req, res) => {
     ]),
     Order.find().sort("-createdAt").limit(6),
     Order.aggregate([
+      { $match: { status: { $ne: "Cancelled" } } },
       { $unwind: "$products" },
       {
         $group: {
@@ -23,14 +24,16 @@ export const getDashboardStats = asyncHandler(async (_req, res) => {
       },
       { $sort: { quantity: -1 } },
       { $limit: 5 }
-    ])
+    ]),
+    Order.aggregate([{ $group: { _id: "$status", count: { $sum: 1 } } }, { $sort: { _id: 1 } }])
   ]);
 
   res.json({
     totalProducts,
     totalOrders,
-    revenue: deliveredRevenue[0]?.revenue || 0,
+    revenue: revenueRows[0]?.revenue || 0,
     recentOrders,
-    bestSellers
+    bestSellers,
+    orderStatuses
   });
 });

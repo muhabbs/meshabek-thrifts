@@ -6,8 +6,6 @@ import User from "../models/User.js";
 dotenv.config();
 
 const createAdmin = async () => {
-  await connectDB();
-
   const { ADMIN_NAME, ADMIN_EMAIL, ADMIN_PASSWORD } = process.env;
 
   if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
@@ -18,13 +16,15 @@ const createAdmin = async () => {
     throw new Error("ADMIN_PASSWORD must be at least 8 characters.");
   }
 
-  const existingAdmin = await User.findOne({ email: ADMIN_EMAIL }).select("+password");
+  await connectDB();
 
-  if (existingAdmin) {
-    existingAdmin.name = ADMIN_NAME || existingAdmin.name;
-    existingAdmin.password = ADMIN_PASSWORD;
-    existingAdmin.role = "admin";
-    await existingAdmin.save();
+  const existing = await User.findOne({ email: ADMIN_EMAIL }).select("+password");
+
+  if (existing) {
+    existing.name = ADMIN_NAME || existing.name;
+    existing.password = ADMIN_PASSWORD;
+    existing.role = "admin";
+    await existing.save();
     console.log(`Admin updated: ${ADMIN_EMAIL}`);
     return;
   }
@@ -41,7 +41,7 @@ const createAdmin = async () => {
 
 createAdmin()
   .catch((error) => {
-    console.error(error);
+    console.error(error.message);
     process.exitCode = 1;
   })
   .finally(async () => {

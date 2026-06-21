@@ -1,14 +1,14 @@
 {
-  "name": "meshabek-store-backend",
+  "name": "meshabek-store-api",
   "version": "1.0.0",
-  "description": "Express and MongoDB API for Meshabek Store.",
+  "description": "REST API for Meshabek Store e-commerce platform.",
   "main": "src/server.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
-    "create-admin": "node src/data/createAdmin.js",
-    "clear-store": "node src/data/clearStore.js"
+    "create-admin": "node src/scripts/createAdmin.js",
+    "check": "node --check src/server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

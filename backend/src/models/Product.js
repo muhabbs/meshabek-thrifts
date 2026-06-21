@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
-const sizeSchema = new mongoose.Schema(
+const productSizeSchema = new mongoose.Schema(
   {
     label: { type: String, required: true, trim: true },
-    stock: { type: Number, required: true, min: 0, default: 0 }
+    stock: { type: Number, min: 0, default: 0 }
   },
   { _id: false }
 );
@@ -17,10 +17,11 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
+      trim: true,
       enum: ["Hoodies", "Jackets", "Jeans", "Shirts", "Sweaters", "Accessories"]
     },
-    sizes: [sizeSchema],
-    stock: { type: Number, required: true, min: 0, default: 0 },
+    sizes: { type: [productSizeSchema], default: [] },
+    stock: { type: Number, min: 0, default: 0 },
     soldOut: { type: Boolean, default: false },
     featured: { type: Boolean, default: false }
   },
@@ -28,9 +29,7 @@ const productSchema = new mongoose.Schema(
 );
 
 productSchema.pre("validate", function syncStock(next) {
-  if (this.sizes?.length) {
-    this.stock = this.sizes.reduce((sum, size) => sum + Number(size.stock || 0), 0);
-  }
+  this.stock = this.sizes.reduce((sum, size) => sum + Number(size.stock || 0), 0);
   this.soldOut = this.stock <= 0;
   next();
 });

@@ -14,11 +14,12 @@ import { errorHandler, notFound } from "./middleware/error.js";
 dotenv.config();
 
 const app = express();
+const allowedOrigins = process.env.CLIENT_URL ? process.env.CLIENT_URL.split(",").map((url) => url.trim()) : ["http://localhost:5173"];
 
 app.use(helmet());
 app.use(
   cors({
-    origin: process.env.CLIENT_URL?.split(",") || "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true
   })
 );
@@ -26,7 +27,10 @@ app.use(express.json({ limit: "1mb" }));
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 app.use(rateLimit({ windowMs: 15 * 60 * 1000, limit: 300 }));
 
-app.get("/api/health", (_req, res) => res.json({ status: "ok", service: "Meshabek Store API" }));
+app.get("/api/health", (_req, res) => {
+  res.json({ status: "ok", service: "Meshabek Store API" });
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
