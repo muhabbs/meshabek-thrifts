@@ -66,7 +66,17 @@ const Home = () => {
         <div className="mt-8">
           {loading && <LoadingState label="Loading featured products" />}
           {error && <ErrorState message={error} />}
-          {!loading && !error && <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{featured.slice(0, 8).map((product) => <ProductCard key={product._id} product={product} />)}</div>}
+          {!loading && !error && featured.length === 0 && (
+            <div className="rounded-lg border border-ink/10 bg-linen p-8 text-center">
+              <h3 className="font-display text-3xl font-black">New pieces coming soon</h3>
+              <p className="mt-3 text-sm text-ink/60">The next Meshabek drop is being prepared.</p>
+            </div>
+          )}
+          {!loading && !error && featured.length > 0 && (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {featured.slice(0, 8).map((product) => <ProductCard key={product._id} product={product} />)}
+            </div>
+          )}
         </div>
       </section>
 

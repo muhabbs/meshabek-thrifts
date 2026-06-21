@@ -7,8 +7,8 @@ import { useAuth } from "../../context/AuthContext.jsx";
 const AdminLogin = () => {
   const { login, isAdmin } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("admin@meshabek.store");
-  const [password, setPassword] = useState("admin12345");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   if (isAdmin) return <Navigate to="/admin" replace />;

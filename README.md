@@ -1,6 +1,6 @@
 # Meshabek Store
 
-A production-ready full-stack e-commerce website for **Meshabek Store**, a premium Egyptian thrift clothing brand. The app includes a public shopping experience, cart, checkout, JWT-secured admin dashboard, MongoDB models, Cloudinary image upload route, analytics, and realistic demo data.
+A production-ready full-stack e-commerce website for **Meshabek Store**, a premium Egyptian thrift clothing brand. The app includes a public shopping experience, cart, checkout, JWT-secured admin dashboard, MongoDB models, Cloudinary image upload route, and analytics.
 
 ## Stack
 
@@ -15,7 +15,7 @@ A production-ready full-stack e-commerce website for **Meshabek Store**, a premi
 
 ```txt
 frontend/   React storefront and admin dashboard
-backend/    Express API, MongoDB models, routes, controllers, seed data
+backend/    Express API, MongoDB models, routes, controllers
 ```
 
 ## Local Setup
@@ -38,17 +38,10 @@ JWT_SECRET=replace-with-a-long-random-secret
 CLIENT_URL=http://localhost:5173
 ```
 
-3. Seed demo data:
+3. Create the first admin account:
 
 ```bash
-npm run seed
-```
-
-Default admin from `.env.example`:
-
-```txt
-admin@meshabek.store
-admin12345
+npm run create-admin
 ```
 
 4. Start backend:
@@ -88,8 +81,8 @@ CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 ADMIN_NAME=Meshabek Admin
-ADMIN_EMAIL=admin@meshabek.store
-ADMIN_PASSWORD=admin12345
+ADMIN_EMAIL=your-admin-email@example.com
+ADMIN_PASSWORD=use-a-strong-password
 ```
 
 Frontend:
@@ -132,10 +125,10 @@ VITE_API_URL=http://localhost:5000/api
 6. Set `NODE_ENV=production`.
 7. Set `CLIENT_URL` to your Vercel frontend URL.
 
-Run seed once from Render shell or locally against Atlas:
+Create the first admin once from Render shell or locally against Atlas:
 
 ```bash
-npm run seed
+npm run create-admin
 ```
 
 ### Frontend on Vercel
@@ -148,7 +141,6 @@ npm run seed
 
 ## Production Notes
 
-- Replace the demo admin password before showing the site publicly.
 - Configure Cloudinary variables to enable dashboard image uploads.
 - For a live store, add payment integration, delivery fee calculation, and exact garment measurements.
 - The backend reduces stock when an order is placed and automatically marks products sold out when stock reaches zero.

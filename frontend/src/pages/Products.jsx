@@ -85,7 +85,7 @@ const Products = () => {
       <div className="mt-8">
         {loading && <LoadingState label="Loading products" />}
         {error && <ErrorState message={error} />}
-        {!loading && !error && products.length === 0 && <ErrorState message="No products match these filters." />}
+        {!loading && !error && products.length === 0 && <ErrorState message="No products are available yet." />}
         {!loading && !error && products.length > 0 && <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{products.map((product) => <ProductCard key={product._id} product={product} />)}</div>}
       </div>
     </section>
